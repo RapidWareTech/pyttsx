@@ -14,19 +14,17 @@ Included drivers
 
 * nsss - NSSpeechSynthesizer on Mac OS X 10.5 and higher
 * sapi5 - SAPI5 on Windows XP, Windows Vista, and (untested) Windows 7
-* espeak - eSpeak on any distro / platform that can host the shared library
-  (e.g., Ubuntu / Fedora Linux)
+* espeak - eSpeak on any distro / platform that can host the shared library (e.g., Ubuntu / Fedora Linux)
 
 Contributing drivers
 --------------------
 
-Email the author if you have wrapped or are interested in wrapping another 
-text-to-speech engine for use with pyttsx.
+Email the author if you have wrapped or are interested in wrapping another text-to-speech engine for use with pyttsx.
 
 Project Links
 -------------
 
 * Python Package Index for downloads (http://pypi.python.org/pyttsx)
-* Launchpad site for source, bugs, and q&a (https://launchpad.net/pyttsx)
+* GitHub site for source, bugs, and q&a (https://github.com/parente/pyttsx)
 * Python Package Index for documentation (http://packages.python.org/pypi/pyttsx)
 
