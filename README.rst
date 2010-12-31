@@ -8,11 +8,13 @@ pyttsx
 Quickstart
 ==========
 
-import pyttsx
-engine = pyttsx.init()
-engine.say('Greetings!')
-engine.say('How are you today?')
-engine.runAndWait()
+::
+
+   import pyttsx
+   engine = pyttsx.init()
+   engine.say('Greetings!')
+   engine.say('How are you today?')
+   engine.runAndWait()
 
 See http://packages.python.org/pypi/pyttsx for documentation of the full API.
 
