@@ -16,7 +16,7 @@ Quickstart
    engine.say('How are you today?')
    engine.runAndWait()
 
-See http://packages.python.org/pypi/pyttsx for documentation of the full API.
+See http://packages.python.org/pyttsx/ for documentation of the full API.
 
 Included drivers
 ================
