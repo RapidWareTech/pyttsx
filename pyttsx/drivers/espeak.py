@@ -82,6 +82,7 @@ class EspeakDriver(object):
     
     def setProperty(self, name, value):
         if name == 'voice':
+            if value is None: return
             try:
                 _espeak.SetVoiceByName(value)
             except ctypes.ArgumentError, e:
