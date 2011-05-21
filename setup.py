@@ -18,12 +18,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 from setuptools import setup, find_packages
 
 setup(name='pyttsx',
-      version='1.0',
+      version='1.1',
       description='pyttsx - cross platform text-to-speech',
       long_description='pyttsx is a Python package supporting common text-to-speech engines on Mac OS X, Windows, and Linux.',
       author='Peter Parente',
       author_email='parente@cs.unc.edu',
-      url='https://launchpad.net/pyttsx',
+      url='https://github.com/parente/pyttsx',
       download_url='http://pypi.python.org/pypi/pyttsx',
       license='BSD License',
       packages=['pyttsx', 'pyttsx.drivers']
