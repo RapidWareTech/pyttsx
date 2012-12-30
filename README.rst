@@ -40,7 +40,7 @@ Project links
 License
 =======
 
-Copyright (c) 2009, 2010 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 All rights reserved.
 
 http://creativecommons.org/licenses/BSD/
