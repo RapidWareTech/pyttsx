@@ -2,13 +2,13 @@
 pyttsx - Text-to-speech x-platform
 ==================================
 
-This documentation describes the pyttsx Python package v |release| and was rendered on |today|. 
+This documentation describes the pyttsx Python package v |release| and was rendered on |today|.
 
 .. rubric:: Table of Contents
 
 .. toctree::
    :maxdepth: 2
-   
+
    support
    engine
    drivers
@@ -16,10 +16,10 @@ This documentation describes the pyttsx Python package v |release| and was rende
 
 .. rubric:: Project Links
 
-* `Project home page at Launchpad`__
+* `Project home page at GitHub`__
 * `Package listing in PyPI`__
-* `Documentation in PyPI`__
+* `Documentation at ReadTheDocs`__
 
-__ https://launchpad.net/pyttsx
+__ https://github.com/parente/pyttsx
 __ http://pypi.python.org/pypi/pyttsx
-__ http://packages.python.org/pyttsx
+__ https://pyttsx.readthedocs.org/
