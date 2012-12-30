@@ -1,7 +1,7 @@
 '''
 Tests lifecycle.
 
-Copyright (c) 2009 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -22,15 +22,15 @@ import pyttsx
 class TestLifecycle(unittest.TestCase):
     def setUp(self):
         self.engine = pyttsx.init()
-    
+
     def tearDown(self):
         del self.engine
-    
+
     def testSeparateDrivers(self):
         self.engine2 = pyttsx.init('dummy')
         self.assert_(self.engine != self.engine2)
         del self.engine2
-    
+
     def testReuseDriver(self):
         self.engine2 = pyttsx.init()
         self.assert_(self.engine == self.engine2)

@@ -1,7 +1,7 @@
 '''
 NSSpeechSynthesizer driver.
 
-Copyright (c) 2009 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -38,18 +38,18 @@ class NSSpeechDriver(NSObject):
     def destroy(self):
         self._tts.setDelegate_(None)
         del self._tts
-    
+
     def onPumpFirst_(self, timer):
         self._proxy.setBusy(False)
-        
+
     def startLoop(self):
         NSTimer.scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_(
             0.0, self, 'onPumpFirst:', None, False)
         AppHelper.runConsoleEventLoop()
-    
+
     def endLoop(self):
         AppHelper.stopEventLoop()
-    
+
     def iterate(self):
         self._proxy.setBusy(False)
         yield
@@ -59,21 +59,21 @@ class NSSpeechDriver(NSObject):
         self._completed = True
         self._proxy.notify('started-utterance')
         self._tts.startSpeakingString_(unicode(text))
-    
+
     def stop(self):
         if self._proxy.isBusy():
             self._completed = False
         self._tts.stopSpeaking()
-        
+
     def _toVoice(self, attr):
         return Voice(attr['VoiceIdentifier'], attr['VoiceName'],
                      [attr['VoiceLanguage']], attr['VoiceGender'],
                      attr['VoiceAge'])
-        
+
     def getProperty(self, name):
         if name == 'voices':
             return [self._toVoice(NSSpeechSynthesizer.attributesForVoice_(v))
-                     for v in list(NSSpeechSynthesizer.availableVoices())] 
+                     for v in list(NSSpeechSynthesizer.availableVoices())]
         elif name == 'voice':
             return self._tts.voice()
         elif name == 'rate':
@@ -82,7 +82,7 @@ class NSSpeechDriver(NSObject):
             return self._tts.volume()
         else:
             raise KeyError('unknown property %s' % name)
-    
+
     def setProperty(self, name, value):
         if name == 'voice':
             # vol/rate gets reset, so store and restore it
@@ -105,7 +105,7 @@ class NSSpeechDriver(NSObject):
             success = True
         self._proxy.notify('finished-utterance', completed=success)
         self._proxy.setBusy(False)
-    
+
     def speechSynthesizer_willSpeakWord_ofString_(self, tts, rng, text):
-        self._proxy.notify('started-word', location=rng.location, 
+        self._proxy.notify('started-word', location=rng.location,
             length=rng.length)

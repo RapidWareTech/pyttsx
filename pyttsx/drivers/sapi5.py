@@ -1,7 +1,7 @@
 '''
 SAPI 5+ driver.
 
-Copyright (c) 2009 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -54,7 +54,7 @@ class SAPI5Driver(object):
         # initial rate
         self._rateWpm = 200
         self.setProperty('voice', self.getProperty('voice'))
-    
+
     def destroy(self):
         self._tts.EventInterests = 0
 
@@ -63,7 +63,7 @@ class SAPI5Driver(object):
         self._proxy.notify('started-utterance')
         self._speaking = True
         self._tts.Speak(unicode(text), 19)
-    
+
     def stop(self):
         if not self._speaking:
             return
@@ -73,13 +73,13 @@ class SAPI5Driver(object):
 
     def _toVoice(self, attr):
         return Voice(attr.Id, attr.GetDescription())
-    
+
     def _tokenFromId(self, id):
         tokens = self._tts.GetVoices()
         for token in tokens:
             if token.Id == id: return token
         raise ValueError('unknown voice id %s', id)
-    
+
     def getProperty(self, name):
         if name == 'voices':
             return [self._toVoice(attr) for attr in self._tts.GetVoices()]
@@ -91,7 +91,7 @@ class SAPI5Driver(object):
             return self._tts.Volume/100.0
         else:
             raise KeyError('unknown property %s' % name)
-    
+
     def setProperty(self, name, value):
         if name == 'voice':
             token = self._tokenFromId(value)
@@ -113,20 +113,20 @@ class SAPI5Driver(object):
                 raise ValueError(str(e))
         else:
             raise KeyError('unknown property %s' % name)
-    
+
     def startLoop(self):
         first = True
         self._looping = True
         while self._looping:
-            if first: 
+            if first:
                 self._proxy.setBusy(False)
                 first = False
             pythoncom.PumpWaitingMessages()
             time.sleep(0.05)
-    
+
     def endLoop(self):
         self._looping = False
-    
+
     def iterate(self):
         self._proxy.setBusy(False)
         while 1:
@@ -142,7 +142,7 @@ class SAPI5DriverEventSink(object):
 
     def OnWord(self, stream, pos, char, length):
         self._driver._proxy.notify('started-word', location=char, length=length)
-    
+
     def OnEndStream(self, stream, pos):
         d = self._driver
         if d._speaking:

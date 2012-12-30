@@ -1,7 +1,7 @@
 '''
 Tests properties.
 
-Copyright (c) 2009 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -22,10 +22,10 @@ import pyttsx
 class TestProperties(unittest.TestCase):
     def setUp(self):
         self.engine = pyttsx.init(debug=False)
-    
+
     def tearDown(self):
         del self.engine
-        
+
     def testDefaults(self):
         voices = self.engine.getProperty('voices')
         drate = 200
@@ -60,7 +60,7 @@ class TestProperties(unittest.TestCase):
             self.engine.runAndWait()
             gvolume = self.engine.getProperty('volume')
             self.assertAlmostEqual(volume, gvolume, 4)
-    
+
     def testSetMultiple(self):
         voices = self.engine.getProperty('voices')
         self.engine.setProperty('volume', 0.5)
@@ -73,7 +73,7 @@ class TestProperties(unittest.TestCase):
         self.assertAlmostEqual(gvolume, 0.5, 4)
         grate = self.engine.getProperty('rate')
         self.assert_(grate == 300)
-    
+
     def testBadVolume(self):
         errors = []
         def errback(exception, name):
@@ -86,7 +86,7 @@ class TestProperties(unittest.TestCase):
         self.engine.disconnect(tok)
         for error in errors:
             self.assert_(isinstance(error, ValueError))
-    
+
     def testBadRate(self):
         errors = []
         def errback(exception, name):
@@ -99,7 +99,7 @@ class TestProperties(unittest.TestCase):
         self.engine.disconnect(tok)
         for error in errors:
             self.assert_(isinstance(error, ValueError))
-        
+
     def testBadVoice(self):
         errors = []
         def errback(exception, name):

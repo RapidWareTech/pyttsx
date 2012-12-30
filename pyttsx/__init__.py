@@ -1,7 +1,7 @@
 '''
 pyttsx package.
 
-Copyright (c) 2009 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -24,8 +24,8 @@ def init(driverName=None, debug=False):
     '''
     Constructs a new TTS engine instance or reuses the existing instance for
     the driver name.
-        
-    @param driverName: Name of the platform specific driver to use. If 
+
+    @param driverName: Name of the platform specific driver to use. If
         None, selects the default driver for the operating system.
     @type: str
     @param debug: Debugging output enabled or not

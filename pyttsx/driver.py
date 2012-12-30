@@ -1,7 +1,7 @@
 '''
 Proxy for drivers.
 
-Copyright (c) 2009 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -22,14 +22,14 @@ import weakref
 class DriverProxy(object):
     '''
     Proxy to a driver implementation.
-    
+
     @ivar _module: Module containing the driver implementation
     @type _module: module
     @ivar _engine: Reference to the engine that owns the driver
     @type _engine: L{engine.Engine}
     @ivar _queue: Queue of commands outstanding for the driver
     @type _queue: list
-    @ivar _busy: True when the driver is busy processing a command, False when 
+    @ivar _busy: True when the driver is busy processing a command, False when
         not
     @type _busy: bool
     @ivar _name: Name associated with the current utterance
@@ -42,7 +42,7 @@ class DriverProxy(object):
     def __init__(self, engine, driverName, debug):
         '''
         Constructor.
-        
+
         @param engine: Reference to the engine that owns the driver
         @type engine: L{engine.Engine}
         @param driverName: Name of the driver module to use under drivers/ or
@@ -71,7 +71,7 @@ class DriverProxy(object):
         self._name = None
         self._iterator = None
         self._debug = debug
-        
+
     def __del__(self):
         try:
             self._driver.destroy()
@@ -81,7 +81,7 @@ class DriverProxy(object):
     def _push(self, mtd, args, name=None):
         '''
         Adds a command to the queue.
-        
+
         @param mtd: Method to invoke to process the command
         @type mtd: method
         @param args: Arguments to apply when invoking the method
@@ -109,7 +109,7 @@ class DriverProxy(object):
     def notify(self, topic, **kwargs):
         '''
         Sends a notification to the engine from the driver.
-        
+
         @param topic: Notification topic
         @type topic: str
         @param kwargs: Arbitrary keyword arguments
@@ -121,7 +121,7 @@ class DriverProxy(object):
     def setBusy(self, busy):
         '''
         Called by the driver to indicate it is busy.
-        
+
         @param busy: True when busy, false when idle
         @type busy: bool
         '''
@@ -135,11 +135,11 @@ class DriverProxy(object):
         @rtype: bool
         '''
         return self._busy
-        
+
     def say(self, text, name):
         '''
         Called by the engine to push a say command onto the queue.
-        
+
         @param text: Text to speak
         @type text: unicode
         @param name: Name to associate with the utterance
@@ -165,7 +165,7 @@ class DriverProxy(object):
     def getProperty(self, name):
         '''
         Called by the engine to get a driver property value.
-        
+
         @param name: Name of the property
         @type name: str
         @return: Property value
@@ -176,22 +176,22 @@ class DriverProxy(object):
     def setProperty(self, name, value):
         '''
         Called by the engine to set a driver property value.
-        
+
         @param name: Name of the property
         @type name: str
         @param value: Property value
         @type value: object
         '''
         self._push(self._driver.setProperty, (name, value))
-        
+
     def runAndWait(self):
         '''
-        Called by the engine to start an event loop, process all commands in 
+        Called by the engine to start an event loop, process all commands in
         the queue at the start of the loop, and then exit the loop.
         '''
         self._push(self._engine.endLoop, tuple())
         self._driver.startLoop()
-        
+
     def startLoop(self, useDriverLoop):
         '''
         Called by the engine to start an event loop.
@@ -200,7 +200,7 @@ class DriverProxy(object):
             self._driver.startLoop()
         else:
             self._iterator = self._driver.iterate()
-    
+
     def endLoop(self, useDriverLoop):
         '''
         Called by the engine to stop an event loop.
@@ -212,7 +212,7 @@ class DriverProxy(object):
         else:
             self._iterator = None
         self.setBusy(True)
-    
+
     def iterate(self):
         '''
         Called by the engine to iterate driver commands and notifications from

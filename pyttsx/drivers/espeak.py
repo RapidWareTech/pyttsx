@@ -1,7 +1,7 @@
 '''
 espeak driver.
 
-Copyright (c) 2009 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -28,7 +28,7 @@ class EspeakDriver(object):
     _defaultVoice = ''
     def __init__(self, proxy):
         if not EspeakDriver._moduleInitialized:
-            # espeak cannot initialize more than once per process and has 
+            # espeak cannot initialize more than once per process and has
             # issues when terminating from python (assert error on close)
             # so just keep it alive and init once
             rate = _espeak.Initialize(_espeak.AUDIO_OUTPUT_PLAYBACK, 1000)
@@ -52,11 +52,11 @@ class EspeakDriver(object):
         self._proxy.setBusy(True)
         self._proxy.notify('started-utterance')
         _espeak.Synth(text, flags=_espeak.ENDPAUSE)
-    
+
     def stop(self):
         if _espeak.IsPlaying():
             self._stopping = True
-    
+
     def getProperty(self, name):
         if name == 'voices':
             voices = []
@@ -79,7 +79,7 @@ class EspeakDriver(object):
             return _espeak.GetParameter(_espeak.VOLUME)/100.0
         else:
             raise KeyError('unknown property %s' % name)
-    
+
     def setProperty(self, name, value):
         if name == 'voice':
             if value is None: return
@@ -99,7 +99,7 @@ class EspeakDriver(object):
                 raise ValueError(str(e))
         else:
             raise KeyError('unknown property %s' % name)
-    
+
     def startLoop(self):
         first = True
         self._looping = True
@@ -116,10 +116,10 @@ class EspeakDriver(object):
                 self._proxy.notify('finished-utterance', completed=False)
                 self._proxy.setBusy(False)
             time.sleep(0.01)
-    
+
     def endLoop(self):
         self._looping = False
-    
+
     def iterate(self):
         self._proxy.setBusy(False)
         while 1:
@@ -131,7 +131,7 @@ class EspeakDriver(object):
                 self._proxy.notify('finished-utterance', completed=False)
                 self._proxy.setBusy(False)
             yield
-    
+
     def _onSynth(self, wav, numsamples, events):
         i = 0
         while True:
@@ -139,8 +139,8 @@ class EspeakDriver(object):
             if event.type == _espeak.EVENT_LIST_TERMINATED:
                 break
             if event.type == _espeak.EVENT_WORD:
-                self._proxy.notify('started-word', 
-                    location=event.text_position-1, 
+                self._proxy.notify('started-word',
+                    location=event.text_position-1,
                     length=event.length)
             elif event.type == _espeak.EVENT_MSG_TERMINATED:
                 self._proxy.notify('finished-utterance', completed=True)

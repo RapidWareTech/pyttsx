@@ -1,7 +1,7 @@
 '''
 Voice metadata definition.
 
-Copyright (c) 2009 Peter Parente
+Copyright (c) 2009, 2013 Peter Parente
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -18,14 +18,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 class Voice(object):
     def __init__(self, id, name=None, languages=[], gender=None, age=None):
         self.id = id
-        self.name = name 
+        self.name = name
         self.languages = languages
         self.gender = gender
         self.age = age
-    
+
     def __str__(self):
-        return '''<Voice id=%(id)s 
-          name=%(name)s 
-          languages=%(languages)s 
-          gender=%(gender)s 
+        return '''<Voice id=%(id)s
+          name=%(name)s
+          languages=%(languages)s
+          gender=%(gender)s
           age=%(age)s>''' % self.__dict__
