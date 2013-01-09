@@ -2,8 +2,7 @@
 pyttsx
 ======
 
-:Author: Peter Parente
-:Description: Cross-platform Python wrapper for text-to-speech synthesis
+Cross-platform Python wrapper for text-to-speech synthesis
 
 Quickstart
 ==========
@@ -16,7 +15,7 @@ Quickstart
    engine.say('How are you today?')
    engine.runAndWait()
 
-See http://packages.python.org/pyttsx/ for documentation of the full API.
+See http://pyttsx.readthedocs.org/ for documentation of the full API.
 
 Included drivers
 ================
@@ -35,7 +34,7 @@ Project links
 
 * Python Package Index for downloads (http://pypi.python.org/pyttsx)
 * GitHub site for source, bugs, and q&a (https://github.com/parente/pyttsx)
-* Python Package Index for documentation (http://packages.python.org/pypi/pyttsx)
+* ReadTheDocs for docs (http://pyttsx.readthedocs.org)
 
 License
 =======
