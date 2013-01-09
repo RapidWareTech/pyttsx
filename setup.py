@@ -18,7 +18,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 from setuptools import setup, find_packages
 
 setup(name='pyttsx',
-      version='1.1',
+      version='1.2',
       description='pyttsx - cross platform text-to-speech',
       long_description='pyttsx is a Python package supporting common text-to-speech engines on Mac OS X, Windows, and Linux.',
       author='Peter Parente',
