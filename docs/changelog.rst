@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+Version 1.2
+~~~~~~~~~~~
+
+* Fixed voice selection to use VoiceLocaleIdentifier on OS X instead of deprecated VoiceLanguage
+
 Version 1.1
 ~~~~~~~~~~~
 
