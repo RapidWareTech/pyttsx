@@ -139,6 +139,9 @@ class DummyDriver(object):
                 pass
         self._proxy.notify('finished-utterance', completed=True)
         self._proxy.setBusy(False)
+        
+    def speakToFile(self, text, filename):
+        raise NotImplementedError('Not implemented in this driver')
 
     def stop(self):
         '''

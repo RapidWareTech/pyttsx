@@ -63,6 +63,9 @@ class SAPI5Driver(object):
         self._proxy.notify('started-utterance')
         self._speaking = True
         self._tts.Speak(unicode(text), 19)
+        
+    def speakToFile(self, text, filename):
+        raise NotImplementedError('Not implemented in this driver')
 
     def stop(self):
         if not self._speaking:

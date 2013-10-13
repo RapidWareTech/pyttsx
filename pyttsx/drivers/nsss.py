@@ -59,6 +59,13 @@ class NSSpeechDriver(NSObject):
         self._completed = True
         self._proxy.notify('started-utterance')
         self._tts.startSpeakingString_(unicode(text))
+        
+    def speakToFile(self, text, filepath):
+        f = NSURL.fileURLWithPath_(filepath)
+        self._proxy.setBusy(True)
+        self._completed = True
+        self._proxy.notify('started-utterance')
+        self._tts.startSpeakingString_toURL_(unicode(text), f)
 
     def stop(self):
         if self._proxy.isBusy():

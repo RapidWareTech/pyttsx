@@ -112,6 +112,20 @@ class Engine(object):
         @type name: str
         '''
         self.proxy.say(text, name)
+        
+    def speakToFile(self, text, filepath, name=None):
+        '''
+        Adds an utterance for transcribing to disk to the event queue.
+
+        @param text: Text to say
+        @type text: unicode
+        @param filepath: Location to save the audio file to
+        @type filepath: str
+        @param name: Name to associate with this utterance. Included in
+            notifications about this utterance.
+        @type name: str
+        '''
+        self.proxy.speakToFile(text, filepath, name)
 
     def stop(self):
         '''

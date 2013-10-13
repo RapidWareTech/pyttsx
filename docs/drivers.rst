@@ -54,6 +54,16 @@ All drivers must implement the following factory function and driver interface.
       
       :param text: Text to speak.
       :param name: Name to associate with the utterance. Included in notifications about this utterance.
+      
+   .. method:: speakToFile(text : unicode, filename : string, name : string) -> None
+   
+      Immediately saves an utterance to the filepath specified. The speech must be output according to the current property values applied at the time of this invocation. Before this method returns, it must invoke :meth:`pyttsx.driver.DriverProxy.setBusy` with value :const:`True` to stall further processing of the command queue until the output completes or is interrupted.
+      
+      This method must trigger one and only one `started-utterance` notification when output begins, one `started-word` notification at the start of each word in the utterance, and a `finished-utterance` notification when output completes.
+      
+      :param text: Text to say.
+      :param filepath: Location to save the audio file to.
+      :param name: Name to associate with the utterance. Included in notifications about this utterance.
    
    .. method:: setProperty(name : string, value : object) -> None
    
