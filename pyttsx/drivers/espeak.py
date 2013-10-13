@@ -52,6 +52,9 @@ class EspeakDriver(object):
         self._proxy.setBusy(True)
         self._proxy.notify('started-utterance')
         _espeak.Synth(text, flags=_espeak.ENDPAUSE)
+        
+    def speakToFile(self, text, filename):
+        raise NotImplementedError('Not implemented in this driver')
 
     def stop(self):
         if _espeak.IsPlaying():

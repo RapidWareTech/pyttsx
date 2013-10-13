@@ -146,6 +146,19 @@ class DriverProxy(object):
         @type name: str
         '''
         self._push(self._driver.say, (text,), name)
+        
+    def speakToFile(self, text, filepath, name):
+        '''
+        Called by the engine to push a speakToFile command onto the queue.
+
+        @param text: Text to say
+        @type text: unicode
+        @param filepath: Location to save the audio file to
+        @type filepath: str
+        @param name: Name to associate with the utterance
+        @type name: str
+        '''
+        self._push(self._driver.speakToFile, (text, filepath), name)
 
     def stop(self):
         '''
