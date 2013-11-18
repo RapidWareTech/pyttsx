@@ -4,6 +4,7 @@ Changelog
 Version 1.2
 ~~~~~~~~~~~
 
+* Added pip install instructions to doc.
 * Fixed voice selection to use VoiceLocaleIdentifier on OS X instead of deprecated VoiceLanguage
 
 Version 1.1

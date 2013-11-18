@@ -15,7 +15,18 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
-from setuptools import setup, find_packages
+import platform
+from setuptools import setup
+
+install_requires = []
+if platform.system() == 'Windows':
+    install_requires = [
+        'win32com'
+    ]
+elif platform.system() == 'Darwin':
+    install_requires = [
+        'pyobjc>=2.4'
+    ]
 
 setup(name='pyttsx',
       version='1.2',
@@ -26,5 +37,6 @@ setup(name='pyttsx',
       url='https://github.com/parente/pyttsx',
       download_url='http://pypi.python.org/pypi/pyttsx',
       license='BSD License',
-      packages=['pyttsx', 'pyttsx.drivers']
+      packages=['pyttsx', 'pyttsx.drivers'],
+      install_requires=install_requires
 )

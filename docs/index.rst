@@ -9,7 +9,7 @@ This documentation describes the pyttsx Python package v |release| and was rende
 .. toctree::
    :maxdepth: 2
 
-   support
+   install
    engine
    drivers
    changelog
