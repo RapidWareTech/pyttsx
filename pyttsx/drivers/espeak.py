@@ -26,6 +26,8 @@ def buildDriver(proxy):
 class EspeakDriver(object):
     _moduleInitialized = False
     _defaultVoice = ''
+    genders = [None, 'male', 'female']
+
     def __init__(self, proxy):
         if not EspeakDriver._moduleInitialized:
             # espeak cannot initialize more than once per process and has
@@ -57,26 +59,30 @@ class EspeakDriver(object):
         if _espeak.IsPlaying():
             self._stopping = True
 
+    def getVoices(self, language=None):
+        voices = []
+        for v in _espeak.ListLanguageVoices(language):
+            kwargs = {}
+            kwargs['id'] = v.name
+            kwargs['name'] = v.name
+            if v.languages:
+                kwargs['languages'] = v.getLanguages()
+            kwargs['gender'] = self.genders[v.gender]
+            kwargs['age'] = v.age or None
+            voices.append(Voice(**kwargs))
+        return voices
+
     def getProperty(self, name):
         if name == 'voices':
-            voices = []
-            for v in _espeak.ListVoices(None):
-                kwargs = {}
-                kwargs['id'] = v.name
-                kwargs['name'] = v.name
-                if v.languages:
-                    kwargs['languages'] = [v.languages]
-                genders = [None, 'male', 'female']
-                kwargs['gender'] = genders[v.gender]
-                kwargs['age'] = v.age or None
-                voices.append(Voice(**kwargs))
-            return voices
+            return self.getVoices()
         elif name == 'voice':
             return _espeak.GetCurrentVoice().contents.name
         elif name == 'rate':
             return _espeak.GetParameter(_espeak.RATE)
         elif name == 'volume':
             return _espeak.GetParameter(_espeak.VOLUME)/100.0
+        elif name.startswith('voices-'):
+            return self.getVoices(name[7:])
         else:
             raise KeyError('unknown property %s' % name)
 

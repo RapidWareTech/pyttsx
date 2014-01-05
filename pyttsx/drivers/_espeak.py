@@ -9,7 +9,8 @@ Free for any use.
 
 import ctypes
 from ctypes import cdll, c_int, c_char_p, c_wchar_p, POINTER, c_short, c_uint, c_long, c_void_p
-from ctypes import CFUNCTYPE, byref, Structure, Union, c_wchar, c_ubyte, c_ulong
+from ctypes import CFUNCTYPE, cast, byref, Structure, Union, c_wchar, c_ubyte, c_ulong
+from ctypes import string_at, create_string_buffer
 import time
 
 def cfunc(name, dll, result, *args):
@@ -339,7 +340,7 @@ CompileDictionary.__doc__ = '''Compile pronunciation dictionary for a language w
 class VOICE(Structure):
     _fields_ = [
         ('name', c_char_p),
-        ('languages', c_char_p),
+        ('languages', c_void_p),
         ('identifier', c_char_p),
         ('gender', c_ubyte),
         ('age', c_ubyte),
@@ -354,7 +355,20 @@ class VOICE(Structure):
         for field in self._fields_:
             res.append('%s=%s' % (field[0], repr(getattr(self, field[0]))))
         return self.__class__.__name__ + '(' + ','.join(res) + ')'
-        
+    def getLanguages(self):
+        languages = []
+        c_ubyte_p = POINTER(c_ubyte)
+        p = self.languages
+        while True:
+            priority = ctypes.cast(p, c_ubyte_p).contents.value
+            if priority == 0:
+                break
+            lang = string_at(p + 1)
+            langlen = len(lang)
+            languages.append((priority, lang))
+            p += 1 + langlen + 1
+        languages.sort(lambda x,y: cmp(x[0], y[0]))
+        return [ t[1] for t in languages ]
 
 cListVoices = cfunc('espeak_ListVoices', dll, POINTER(POINTER(VOICE)),
                     ('voice_spec', POINTER(VOICE), 1))
@@ -378,6 +392,17 @@ def ListVoices(voice_spec=None):
         res.append(ppv[i][0])
         i += 1
     return res
+
+def ListLanguageVoices(language=None):
+    '''List the languages available for a given language.
+
+    If the language is NULL, all voices are listed.'''
+    voice_spec_p = None
+    if language:
+        voice_spec = VOICE()
+        voice_spec.languages = cast(create_string_buffer(language), c_void_p)
+        voice_spec_p = byref(voice_spec)
+    return ListVoices(voice_spec_p)
 
 SetVoiceByName = cfunc('espeak_SetVoiceByName', dll, c_int,
                        ('name', c_char_p, 1))
