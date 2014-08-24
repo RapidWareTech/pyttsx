@@ -4,6 +4,11 @@ pyttsx
 
 Cross-platform Python wrapper for text-to-speech synthesis
 
+Help Wanted
+===========
+
+As you can probably tell, I have not had time or in some cases the resources (e.g., specific versions of OSes) to maintain pyttsx very well for some time now. If you are using pyttsx in your day to day work and would like to take over as maintainer of the project, please let me know.
+
 Quickstart
 ==========
 
