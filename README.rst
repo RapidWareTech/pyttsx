@@ -41,6 +41,11 @@ Project links
 * GitHub site for source, bugs, and q&a (https://github.com/parente/pyttsx)
 * ReadTheDocs for docs (http://pyttsx.readthedocs.org)
 
+See Also
+========
+
+https://github.com/parente/espeakbox - espeak in a 16.5 MB Docker container with a simple REST API
+
 License
 =======
 
