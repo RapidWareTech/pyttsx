@@ -16,7 +16,7 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
 import ctypes
-import _espeak
+from . import _espeak
 from ..voice import Voice
 import time
 
@@ -85,17 +85,17 @@ class EspeakDriver(object):
             if value is None: return
             try:
                 _espeak.SetVoiceByName(value)
-            except ctypes.ArgumentError, e:
+            except ctypes.ArgumentError as e:
                 raise ValueError(str(e))
         elif name == 'rate':
             try:
                 _espeak.SetParameter(_espeak.RATE, value, 0)
-            except ctypes.ArgumentError, e:
+            except ctypes.ArgumentError as e:
                 raise ValueError(str(e))
         elif name == 'volume':
             try:
                 _espeak.SetParameter(_espeak.VOLUME, int(round(value*100, 2)), 0)
-            except TypeError, e:
+            except TypeError as e:
                 raise ValueError(str(e))
         else:
             raise KeyError('unknown property %s' % name)

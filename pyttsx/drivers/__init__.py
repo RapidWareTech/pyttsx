@@ -15,3 +15,17 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
+
+'''
+Utility functions to help with Python 2/3 compatibility
+'''
+import sys
+
+def isPython2():
+    return sys.version_info < (3, 0);
+
+def ensureUnicode(value):
+    if isPython2():
+        return unicode(value)
+    else:
+        return value

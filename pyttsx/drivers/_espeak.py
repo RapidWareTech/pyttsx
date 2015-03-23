@@ -7,9 +7,8 @@ Modified October 2007 for the version 2 interface to espeak and more pythonic in
 Free for any use.
 '''
 
-import ctypes
 from ctypes import cdll, c_int, c_char_p, c_wchar_p, POINTER, c_short, c_uint, c_long, c_void_p
-from ctypes import CFUNCTYPE, byref, Structure, Union, c_wchar, c_ubyte, c_ulong
+from ctypes import CFUNCTYPE, Structure, Union, c_wchar, c_ubyte, c_ulong
 import time
 
 def cfunc(name, dll, result, *args):
@@ -439,12 +438,12 @@ Info.__doc__ = '''Returns the version number string.
 
 if __name__ == '__main__':
     def synth_cb(wav, numsample, events):
-        print numsample,
+        print(numsample, end="")
         i = 0
         while True:
             if events[i].type == EVENT_LIST_TERMINATED:
                 break
-            print events[i].type,
+            print (events[i].type, end="")
             i += 1
         print
         return 0
@@ -455,6 +454,6 @@ if __name__ == '__main__':
     uid = c_uint(0)
     #print 'pitch=',GetParameter(PITCH)
     #SetParameter(PITCH, 50, 0)
-    print Synth(s)
+    print(Synth(s))
     while IsPlaying():
         time.sleep(0.1)

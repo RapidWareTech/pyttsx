@@ -22,6 +22,7 @@ import time
 import math
 import weakref
 from ..voice import Voice
+from . import ensureUnicode
 
 # common voices
 MSSAM = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\MSSam'
@@ -62,7 +63,7 @@ class SAPI5Driver(object):
         self._proxy.setBusy(True)
         self._proxy.notify('started-utterance')
         self._speaking = True
-        self._tts.Speak(unicode(text), 19)
+        self._tts.Speak(ensureUnicode(text), 19)
 
     def stop(self):
         if not self._speaking:
@@ -74,11 +75,11 @@ class SAPI5Driver(object):
     def _toVoice(self, attr):
         return Voice(attr.Id, attr.GetDescription())
 
-    def _tokenFromId(self, id):
+    def _tokenFromId(self, id_):
         tokens = self._tts.GetVoices()
         for token in tokens:
-            if token.Id == id: return token
-        raise ValueError('unknown voice id %s', id)
+            if token.Id == id_: return token
+        raise ValueError('unknown voice id %s', id_)
 
     def getProperty(self, name):
         if name == 'voices':
@@ -99,17 +100,17 @@ class SAPI5Driver(object):
             a, b = E_REG.get(value, E_REG[MSMARY])
             self._tts.Rate = int(math.log(self._rateWpm/a, b))
         elif name == 'rate':
-            id = self._tts.Voice.Id
-            a, b = E_REG.get(id, E_REG[MSMARY])
+            id_ = self._tts.Voice.Id
+            a, b = E_REG.get(id_, E_REG[MSMARY])
             try:
                 self._tts.Rate = int(math.log(value/a, b))
-            except TypeError, e:
+            except TypeError as e:
                 raise ValueError(str(e))
             self._rateWpm = value
         elif name == 'volume':
             try:
                 self._tts.Volume = int(round(value*100, 2))
-            except TypeError, e:
+            except TypeError as e:
                 raise ValueError(str(e))
         else:
             raise KeyError('unknown property %s' % name)
