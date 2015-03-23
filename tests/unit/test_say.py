@@ -21,7 +21,7 @@ import pyttsx
 import itertools
 
 class TestSay(unittest.TestCase):
-    utters = ['This is the first utterance',
+    utters = ['This is the first utterance and is longer now',
               'The second is an utterance as well']
     names = ['utter1', 'utter2']
 
@@ -163,7 +163,7 @@ class TestSay(unittest.TestCase):
 
 def suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(TestSay)
-    #suite = unittest.TestLoader().loadTestsFromName('testExternalLoop', TestSay)
+    #suite = unittest.TestLoader().loadTestsFromName('testStop', TestSay)
     return suite
 
 if __name__ == '__main__':

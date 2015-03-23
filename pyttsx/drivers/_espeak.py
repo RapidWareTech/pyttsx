@@ -7,9 +7,11 @@ Modified October 2007 for the version 2 interface to espeak and more pythonic in
 Free for any use.
 '''
 
+from __future__ import print_function
 from ctypes import cdll, c_int, c_char_p, c_wchar_p, POINTER, c_short, c_uint, c_long, c_void_p
-from ctypes import CFUNCTYPE, Structure, Union, c_wchar, c_ubyte, c_ulong
+from ctypes import CFUNCTYPE, Structure, Union, c_wchar, c_ubyte, c_ulong, byref
 import time
+
 
 def cfunc(name, dll, result, *args):
     '''build and apply a ctypes prototype complete with parameter flags'''
@@ -151,8 +153,6 @@ POS_WORD      = 2
 POS_SENTENCE  = 3
 
 def Synth(text, position=0, position_type=POS_CHARACTER, end_position=0, flags=0):
-    flags |= CHARS_WCHAR
-    text = unicode(text)
     return cSynth(text, len(text)*10, position, position_type, end_position, flags, None, None)
 
 cSynth = cfunc('espeak_Synth', dll, c_int,
@@ -171,7 +171,7 @@ Synth.__doc__ = '''Synthesize speech for the specified text.  The speech sound d
       wide characters (wchar_t), or UTF8 encoding.  Which of these is determined by the "flags"
       parameter.
 
-   size: Equal to (or greatrer than) the size of the text data, in bytes.  This is used in order
+   size: Equal to (or greater than) the size of the text data, in bytes.  This is used in order
       to allocate internal storage space for the text.  This value is not used for
       AUDIO_OUTPUT_SYNCHRONOUS mode.
 

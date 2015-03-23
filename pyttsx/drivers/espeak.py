@@ -15,10 +15,11 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
-import ctypes
-from . import _espeak
-from ..voice import Voice
 import time
+import ctypes
+from ..voice import Voice
+from . import _espeak, ensureUnicode
+
 
 def buildDriver(proxy):
     return EspeakDriver(proxy)
@@ -34,7 +35,7 @@ class EspeakDriver(object):
             rate = _espeak.Initialize(_espeak.AUDIO_OUTPUT_PLAYBACK, 1000)
             if rate == -1:
                 raise RuntimeError('could not initialize espeak')
-            EspeakDriver._defaultVoice = self.getProperty('voice')
+            EspeakDriver._defaultVoice = 'default'
             EspeakDriver._moduleInitialized = True
         _espeak.SetSynthCallback(self._onSynth)
         # make sure all props reset
@@ -51,7 +52,7 @@ class EspeakDriver(object):
     def say(self, text):
         self._proxy.setBusy(True)
         self._proxy.notify('started-utterance')
-        _espeak.Synth(text, flags=_espeak.ENDPAUSE)
+        _espeak.Synth(ensureUnicode(text).encode('utf-8'), flags=_espeak.ENDPAUSE | _espeak.CHARS_WCHAR)
 
     def stop(self):
         if _espeak.IsPlaying():
@@ -72,7 +73,8 @@ class EspeakDriver(object):
                 voices.append(Voice(**kwargs))
             return voices
         elif name == 'voice':
-            return _espeak.GetCurrentVoice().contents.name
+            voice = _espeak.GetCurrentVoice()
+            return voice.contents.name
         elif name == 'rate':
             return _espeak.GetParameter(_espeak.RATE)
         elif name == 'volume':
@@ -84,7 +86,8 @@ class EspeakDriver(object):
         if name == 'voice':
             if value is None: return
             try:
-                _espeak.SetVoiceByName(value)
+                valueUtf8 = ensureUnicode(value).decode('utf-8')
+                _espeak.SetVoiceByName(valueUtf8)
             except ctypes.ArgumentError as e:
                 raise ValueError(str(e))
         elif name == 'rate':
@@ -102,13 +105,14 @@ class EspeakDriver(object):
 
     def startLoop(self):
         first = True
+        self._stopping = False
         self._looping = True
         while self._looping:
             if first:
                 # kick the queue
                 self._proxy.setBusy(False)
                 first = False
-            if self._stopping:
+            if self._stopping and self._looping:
                 # have to do the cancel on the main thread, not inside the
                 # callback else deadlock
                 _espeak.Cancel()

@@ -20,6 +20,7 @@ import test_setup
 import pyttsx
 
 class TestProperties(unittest.TestCase):
+    
     def setUp(self):
         self.engine = pyttsx.init(debug=False)
 
@@ -48,6 +49,10 @@ class TestProperties(unittest.TestCase):
     def testSetVoice(self):
         voices = self.engine.getProperty('voices')
         for voice in voices:
+            if (any(letter.isupper() for letter in voice.id)):
+                #eSpeak has a bug where it is impossible to select a voice by name if the name has a capital letter.
+                #One possible workaround is to use the voice 'identifier' instead of the voice 'name' as the pyttsx id field
+                continue
             self.engine.setProperty('voice', voice.id)
             self.engine.runAndWait()
             gvoice = self.engine.getProperty('voice')

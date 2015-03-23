@@ -22,7 +22,7 @@ Utility functions to help with Python 2/3 compatibility
 import sys
 
 def isPython2():
-    return sys.version_info < (3, 0);
+    return sys.version_info < (3, 0)
 
 def ensureUnicode(value):
     if isPython2():
