@@ -18,6 +18,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 import unittest
 import test_setup
 import pyttsx
+from six.moves import xrange
 
 class TestProperties(unittest.TestCase):
     
@@ -122,7 +123,7 @@ class TestProperties(unittest.TestCase):
 
 def suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(TestProperties)
-    #suite = unittest.TestLoader().loadTestsFromName('testBadVoice', TestProperties)
+    #suite = unittest.TestLoader().loadTestsFromName('testSetVoice', TestProperties)
     return suite
 
 if __name__ == '__main__':

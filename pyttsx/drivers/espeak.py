@@ -18,7 +18,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 import time
 import ctypes
 from ..voice import Voice
-from . import _espeak, ensureUnicode
+from . import _espeak, toUtf8, fromUtf8
 
 
 def buildDriver(proxy):
@@ -52,7 +52,7 @@ class EspeakDriver(object):
     def say(self, text):
         self._proxy.setBusy(True)
         self._proxy.notify('started-utterance')
-        _espeak.Synth(ensureUnicode(text).encode('utf-8'), flags=_espeak.ENDPAUSE | _espeak.CHARS_WCHAR)
+        _espeak.Synth(toUtf8(text), flags=_espeak.ENDPAUSE | _espeak.CHARS_UTF8)
 
     def stop(self):
         if _espeak.IsPlaying():
@@ -63,8 +63,8 @@ class EspeakDriver(object):
             voices = []
             for v in _espeak.ListVoices(None):
                 kwargs = {}
-                kwargs['id'] = v.name
-                kwargs['name'] = v.name
+                kwargs['id'] = fromUtf8(v.name)
+                kwargs['name'] = fromUtf8(v.name)
                 if v.languages:
                     kwargs['languages'] = [v.languages]
                 genders = [None, 'male', 'female']
@@ -74,7 +74,7 @@ class EspeakDriver(object):
             return voices
         elif name == 'voice':
             voice = _espeak.GetCurrentVoice()
-            return voice.contents.name
+            return fromUtf8(voice.contents.name)
         elif name == 'rate':
             return _espeak.GetParameter(_espeak.RATE)
         elif name == 'volume':
@@ -86,8 +86,8 @@ class EspeakDriver(object):
         if name == 'voice':
             if value is None: return
             try:
-                valueUtf8 = ensureUnicode(value).decode('utf-8')
-                _espeak.SetVoiceByName(valueUtf8)
+                utf8Value = toUtf8(value)
+                _espeak.SetVoiceByName(utf8Value)
             except ctypes.ArgumentError as e:
                 raise ValueError(str(e))
         elif name == 'rate':

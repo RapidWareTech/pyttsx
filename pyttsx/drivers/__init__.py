@@ -19,13 +19,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
 Utility functions to help with Python 2/3 compatibility
 '''
-import sys
+from .. import six
 
-def isPython2():
-    return sys.version_info < (3, 0)
+def toUtf8(value):
+    return six.text_type(value).encode('utf-8')
 
-def ensureUnicode(value):
-    if isPython2():
-        return unicode(value)
-    else:
-        return value
+def fromUtf8(value):
+    return value.decode('utf-8')

@@ -15,6 +15,7 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
+import six
 import sys
 import traceback
 import weakref
@@ -220,6 +221,6 @@ class DriverProxy(object):
         within an external event loop.
         '''
         try:
-            self._iterator.next()
+            six.next(self._iterator)
         except StopIteration:
             pass

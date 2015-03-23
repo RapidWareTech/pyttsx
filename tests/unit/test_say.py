@@ -15,6 +15,7 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
+from six.moves import filter
 import unittest
 import test_setup
 import pyttsx
@@ -98,7 +99,7 @@ class TestSay(unittest.TestCase):
         self.engine.say(object())
         self.engine.runAndWait()
         # event data check
-        errors = filter(lambda e: e['type'] == 'error', self.events)
+        errors = list(filter(lambda e: e['type'] == 'error', self.events))
         self.assert_(len(errors) == 0)
 
     def testStop(self):

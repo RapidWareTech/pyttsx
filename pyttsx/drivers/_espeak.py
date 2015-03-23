@@ -156,7 +156,7 @@ def Synth(text, position=0, position_type=POS_CHARACTER, end_position=0, flags=0
     return cSynth(text, len(text)*10, position, position_type, end_position, flags, None, None)
 
 cSynth = cfunc('espeak_Synth', dll, c_int,
-              ('text', c_wchar_p, 1),
+              ('text', c_char_p, 1),
               ('size', c_long, 1),
               ('position', c_uint, 1, 0),
               ('position_type', c_int, 1, POS_CHARACTER),
