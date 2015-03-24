@@ -19,12 +19,14 @@ import unittest
 import test_say
 import test_prop
 import test_lifecycle
+import test_utilities
 
 def suite():
     suite = unittest.TestSuite([
         test_lifecycle.suite(),
         test_prop.suite(),
-        test_say.suite()
+        test_say.suite(),
+        test_utilities.suite()
     ])
     return suite
 
