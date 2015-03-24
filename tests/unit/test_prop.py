@@ -18,7 +18,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 import unittest
 import test_setup
 import pyttsx
-from six.moves import xrange
+from pyttsx.six.moves import xrange
 
 class TestProperties(unittest.TestCase):
     
