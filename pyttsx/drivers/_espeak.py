@@ -439,22 +439,22 @@ Info.__doc__ = '''Returns the version number string.
 
 if __name__ == '__main__':
     def synth_cb(wav, numsample, events):
-        print numsample,
+        print (numsample)
         i = 0
         while True:
             if events[i].type == EVENT_LIST_TERMINATED:
                 break
-            print events[i].type,
+            print (events[i].type)
             i += 1
-        print
+        print()
         return 0
 
     samplerate = Initialize(output=AUDIO_OUTPUT_PLAYBACK)
     SetSynthCallback(synth_cb)
     s = 'This is a test, only a test. '
     uid = c_uint(0)
-    #print 'pitch=',GetParameter(PITCH)
+    #print ('pitch=',GetParameter(PITCH))
     #SetParameter(PITCH, 50, 0)
-    print Synth(s)
+    print (Synth(s))
     while IsPlaying():
         time.sleep(0.1)

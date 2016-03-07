@@ -18,6 +18,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 import sys
 import traceback
 import weakref
+import importlib
 
 class DriverProxy(object):
     '''
@@ -60,8 +61,8 @@ class DriverProxy(object):
             else:
                 driverName = 'espeak'
         # import driver module
-        name = 'drivers.%s' % driverName
-        self._module = __import__(name, globals(), locals(), [driverName])
+        name = 'pyttsx.drivers.%s' % driverName
+        self._module = importlib.import_module(name)
         # build driver instance
         self._driver = self._module.buildDriver(weakref.proxy(self))
         # initialize refs
@@ -102,7 +103,7 @@ class DriverProxy(object):
             self._name = cmd[2]
             try:
                 cmd[0](*cmd[1])
-            except Exception, e:
+            except Exception as e:
                 self.notify('error', exception=e)
                 if self._debug: traceback.print_exc()
 
