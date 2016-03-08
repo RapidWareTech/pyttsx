@@ -62,7 +62,7 @@ class SAPI5Driver(object):
         self._proxy.setBusy(True)
         self._proxy.notify('started-utterance')
         self._speaking = True
-        self._tts.Speak(unicode(text), 19)
+        self._tts.Speak(str(text), 19)
 
     def stop(self):
         if not self._speaking:

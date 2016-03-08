@@ -17,7 +17,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
 from __future__ import absolute_import
 import ctypes
-from. import _espeak
+from . import _espeak
 from ..voice import Voice
 import time
 

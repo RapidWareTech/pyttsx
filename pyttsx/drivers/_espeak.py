@@ -153,7 +153,7 @@ POS_SENTENCE  = 3
 
 def Synth(text, position=0, position_type=POS_CHARACTER, end_position=0, flags=0):
     flags |= CHARS_WCHAR
-    text = unicode(text)
+    text = str(text)
     return cSynth(text, len(text)*10, position, position_type, end_position, flags, None, None)
 
 cSynth = cfunc('espeak_Synth', dll, c_int,
@@ -439,12 +439,12 @@ Info.__doc__ = '''Returns the version number string.
 
 if __name__ == '__main__':
     def synth_cb(wav, numsample, events):
-        print (numsample)
+        print (numsample, end=' ')
         i = 0
         while True:
             if events[i].type == EVENT_LIST_TERMINATED:
                 break
-            print (events[i].type)
+            print (events[i].type, end=' ')
             i += 1
         print()
         return 0

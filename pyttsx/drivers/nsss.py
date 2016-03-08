@@ -58,7 +58,7 @@ class NSSpeechDriver(NSObject):
         self._proxy.setBusy(True)
         self._completed = True
         self._proxy.notify('started-utterance')
-        self._tts.startSpeakingString_(unicode(text))
+        self._tts.startSpeakingString_(str(text))
 
     def stop(self):
         if self._proxy.isBusy():
