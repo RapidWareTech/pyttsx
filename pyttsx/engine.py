@@ -15,7 +15,8 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
-import driver
+from __future__ import absolute_import
+from . import driver
 import traceback
 import weakref
 
@@ -61,7 +62,7 @@ class Engine(object):
         for cb in self._connects.get(topic, []):
             try:
                 cb(**kwargs)
-            except Exception, e:
+            except Exception as e:
                 if self._debug: traceback.print_exc()
 
     def connect(self, topic, cb):

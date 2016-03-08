@@ -62,7 +62,7 @@ class SAPI5Driver(object):
         self._proxy.setBusy(True)
         self._proxy.notify('started-utterance')
         self._speaking = True
-        self._tts.Speak(unicode(text), 19)
+        self._tts.Speak(str(text), 19)
 
     def stop(self):
         if not self._speaking:
@@ -103,13 +103,13 @@ class SAPI5Driver(object):
             a, b = E_REG.get(id, E_REG[MSMARY])
             try:
                 self._tts.Rate = int(math.log(value/a, b))
-            except TypeError, e:
+            except TypeError as e:
                 raise ValueError(str(e))
             self._rateWpm = value
         elif name == 'volume':
             try:
                 self._tts.Volume = int(round(value*100, 2))
-            except TypeError, e:
+            except TypeError as e:
                 raise ValueError(str(e))
         else:
             raise KeyError('unknown property %s' % name)
