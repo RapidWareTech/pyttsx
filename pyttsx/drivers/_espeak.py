@@ -7,6 +7,7 @@ Modified October 2007 for the version 2 interface to espeak and more pythonic in
 Free for any use.
 '''
 
+from __future__ import print_function
 import ctypes
 from ctypes import cdll, c_int, c_char_p, c_wchar_p, POINTER, c_short, c_uint, c_long, c_void_p
 from ctypes import CFUNCTYPE, byref, Structure, Union, c_wchar, c_ubyte, c_ulong
